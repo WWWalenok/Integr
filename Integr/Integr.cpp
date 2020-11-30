@@ -5,12 +5,12 @@
 
 int main()
 {
-	int n = 10;
+	int n = 15;
 
-	double l = 10, dx = l / (double)n, t = 2 / dx;
+	double l = 15, dx = l / (double)n, t = 2 / dx;
 
 
-	double Bf[2]{ 2,2 }, Bdf[2]{ 2 * t ,2 * t }, Aff[2][2]{ { 2 + 2 / 3.0,2 - 2 / 3.0 }, { 2 - 2 / 3.0,2 + 2 / 3.0 } }, Adfdf[2][2]{ { 2 * t * t ,-2 * t * t  } , { 2 * t * t ,2 * t * t  } }, Adff[2][2]{ { 2 * t ,-2 * t } , { 2 * t ,2 * t } };
+	double Bf[2]{ 2,2 }, Bdf[2]{ -2 * t ,2 * t }, Aff[2][2]{ { 2 + 2 / 3.0,2 - 2 / 3.0 }, { 2 - 2 / 3.0,2 + 2 / 3.0 } }, Adfdf[2][2]{ { 2 * t * t ,-2 * t * t  } , { -2 * t * t ,2 * t * t  } }, Adff[2][2]{ { 2 * t ,-2 * t } , { -2 * t ,2 * t } };
 
 	double f = 1, df = 0, ff = 1, dfdf = 0, dff = 0;
 
@@ -21,7 +21,7 @@ int main()
 	for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
 		A[i][j] = Aff[i][j] * ff + Adfdf[i][j] * dfdf + Adff[i][j] * dff;
 
-	double d1 = 1, dn = 0, t;
+	double d1 = 1, dn = 1;
 
 	int ms = n - 2;
 
@@ -36,8 +36,34 @@ int main()
 
 	for (int i = 1; i < ms; i++) { t = mat[i][0] / mat[i - 1][1]; mat[i][0] = mat[i][0] - mat[i - 1][1] * t; mat[i][1] = mat[i][1] - mat[i - 1][2] * t; mat[i][3] = mat[i][3] - mat[i - 1][3] * t; }
 
-	for (int i = ms - 2; i >= 0; i--) { t = mat[i][2] / mat[i + 1][1]; mat[i][2] = mat[i][2] - mat[i + 1][1] * t; mat[i][3] = mat[i][3] - mat[i - 1][3] * t; }
+	for (int i = ms - 2; i >= 0; i--) { t = mat[i][2] / mat[i + 1][1]; mat[i][2] = mat[i][2] - mat[i + 1][1] * t; mat[i][3] = mat[i][3] - mat[i + 1][3] * t; }
+
+	for (int i = 0; i < ms; i++) { t = 1 / mat[i][1]; mat[i][0] = mat[i][0] * t; mat[i][1] = mat[i][1] * t; mat[i][2] = mat[i][2] * t; mat[i][3] = mat[i][3] * t; }
+
+	std::string str;
+
+	std::cout << 0
+		<< " " << 1
+		<< " " << 0
+		<< " " << d1
+			<< std::endl;
+
+	for (int i = 0; i < ms; i++)
+	{
+		std::cout <<	((abs(mat[i][0]) < 1e-5) ? 0 : mat[i][0])
+			<< " " <<	((abs(mat[i][1]) < 1e-5) ? 0 : mat[i][1])
+			<< " " <<	((abs(mat[i][2]) < 1e-5) ? 0 : mat[i][2])
+			<< " " <<	((abs(mat[i][3]) < 1e-5) ? 0 : mat[i][3])
+			<< std::endl;
+	}
+
+	std::cout << 0
+		<< " " << 1
+		<< " " << 0
+		<< " " << dn
+		<< std::endl;
 
 
+	system("pause");
 
 }
