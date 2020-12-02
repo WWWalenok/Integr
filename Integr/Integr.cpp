@@ -21,7 +21,7 @@ int main()
 	for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++)
 		A[i][j] = Aff[i][j] * ff + Adfdf[i][j] * dfdf + Adff[i][j] * dff;
 
-	double d1 = 1, dn = 0, t;
+	double d1 = 1, dn = 0;
 
 	int ms = n - 2;
 
